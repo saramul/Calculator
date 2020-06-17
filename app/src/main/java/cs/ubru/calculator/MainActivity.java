@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9,
             btnPoint, btnResult, btnPlus, btnMinus, btnDivide, btnMultiply,
-            btnFraction, btnPower, btnSqrt, btnSign;
+            btnClear, btnPercent, btnSign;
     private TextView tvResult;
     private String tmp = "", op;
     private double result, a, b;
@@ -94,6 +94,51 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        btnPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tmp.length()>0 ) {
+                    tmp = tmp + ".";
+                    tvResult.setText(tmp);
+                } else {
+                    tmp = 0 + ".";
+                    tvResult.setText(tmp);
+                }
+            }
+        });
+        btnPercent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                a = Double.parseDouble(tmp);
+                result = a/100;
+
+                if(result != (int)result)
+                    tvResult.setText(String.format("%f", result));
+                else
+                    tvResult.setText(String.format("%.0f", result));
+                tmp = "";
+            }
+        });
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tmp = "";
+                tvResult.setText("0");
+            }
+        });
+        btnSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tmp.length()>0) {
+                    if (tmp.charAt(0) == '-') {
+                        tmp = tmp.substring(1);
+                    } else {
+                        tmp = "-" + tmp;
+                    }
+                    tvResult.setText(tmp);
+                }
+            }
+        });
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,10 +182,15 @@ public class MainActivity extends AppCompatActivity {
                     case "*" : result = a*b;break;
                     case "/" : result = a/b;break;
                 }
-                tvResult.setText(String.format("%.2f", result));
+                if(result != (int)result)
+                    tvResult.setText(String.format("%f", result));
+                else
+                    tvResult.setText(String.format("%.0f", result));
                 tmp = "";
             }
         });
+
+
     }
 
     private void initComponent() {
@@ -162,11 +212,8 @@ public class MainActivity extends AppCompatActivity {
         btnResult = findViewById(R.id.btn_result);
         btnPoint = findViewById(R.id.btn_point);
         btnSign = findViewById(R.id.btn_sign);
-        btnSqrt = findViewById(R.id.btn_sqrt);
-        btnFraction = findViewById(R.id.btn_fraction);
-        btnPower = findViewById(R.id.btn_pow);
-//        result = 0;
-//        tmp = "0";
-//        tvResult.setText(tmp);
+        btnPercent = findViewById(R.id.btn_percent);
+        btnClear = findViewById(R.id.btn_clear);
+
     }
 }
