@@ -25,64 +25,57 @@ public class MainActivity extends AppCompatActivity {
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 9;
-                tvResult.setText(tmp);
+                append(9);
+//                tmp = tmp + 9;
+//                tvResult.setText(tmp);
             }
         });
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 8;
-                tvResult.setText(tmp);
+                append(8);
             }
         });
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 7;
-                tvResult.setText(tmp);
+                append(7);
             }
         });
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 6;
-                tvResult.setText(tmp);
+                append(6);
             }
         });
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 5;
-                tvResult.setText(tmp);
+                append(5);
             }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 4;
-                tvResult.setText(tmp);
+                append(4);
             }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 3;
-                tvResult.setText(tmp);
+                append(3);
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 2;
-                tvResult.setText(tmp);
+                append(2);
             }
         });
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = tmp + 1;
-                tvResult.setText(tmp);
+                append(1);
             }
         });
         btn0.setOnClickListener(new View.OnClickListener() {
@@ -112,18 +105,22 @@ public class MainActivity extends AppCompatActivity {
                 a = Double.parseDouble(tmp);
                 result = a/100;
 
-                if(result != (int)result)
-                    tvResult.setText(String.format("%f", result));
-                else
+                if(result != (int)result) {
+                    String s = "" + result;
+                    s = removeZero(s);
+                    tvResult.setText(s);
+                    //tvResult.setText(String.format("%f", result));
+                }else
                     tvResult.setText(String.format("%.0f", result));
-                tmp = "";
+                tmp = tvResult.getText().toString();
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tmp = "";
+//                tmp = "";
                 tvResult.setText("0");
+                tmp = tvResult.getText().toString();
             }
         });
         btnSign.setOnClickListener(new View.OnClickListener() {
@@ -182,15 +179,43 @@ public class MainActivity extends AppCompatActivity {
                     case "*" : result = a*b;break;
                     case "/" : result = a/b;break;
                 }
-                if(result != (int)result)
-                    tvResult.setText(String.format("%f", result));
-                else
+                if(result != (int)result) {
+                    String s = "" + result;
+                    s = removeZero(s);
+                    tvResult.setText(s);
+                    //tvResult.setText(String.format("%f", result));
+                } else
                     tvResult.setText(String.format("%.0f", result));
-                tmp = "";
+                tmp = tvResult.getText().toString();
+                result = 0;
             }
         });
 
 
+    }
+
+    private void append(int n) {
+        if(tmp.length()==1 && tmp.charAt(0) == '0') {
+            tmp = "" + n;
+            tvResult.setText(tmp);
+        } else {
+            tmp = tmp + n;
+            tvResult.setText(tmp);
+        }
+
+    }
+
+    private String removeZero(String s) {
+        int size = s.length();
+        String str = s;
+        for(int i=size-1; i>1; i--) {
+            if(str.charAt(i) == '0') {
+                str.substring(0, i);
+            } else {
+                break;
+            }
+        }
+        return str;
     }
 
     private void initComponent() {
@@ -215,5 +240,7 @@ public class MainActivity extends AppCompatActivity {
         btnPercent = findViewById(R.id.btn_percent);
         btnClear = findViewById(R.id.btn_clear);
 
+        tvResult.setText("0");
+        tmp = tvResult.getText().toString();
     }
 }
